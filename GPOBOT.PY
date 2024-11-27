@@ -11,7 +11,7 @@ async def start_command(update,context):
     inline_keyboard = [
     [ InlineKeyboardButton("поставить таймер ", callback_data="books")],
     [ InlineKeyboardButton("помощь автору ", callback_data="services")],
-    [ InlineKeyboardButton("под услуги", callback_data="1h")]
+    [ InlineKeyboardButton("под услуги", callback_data="h1")]
     [ InlineKeyboardButton("mem", url="https://www.youtube.com/watch?v=_S7WEVLbQ-Y&t=2s&ab_channel=FicLord")]
     ]
     markup = InlineKeyboardMarkup(inline_keyboard)
@@ -43,7 +43,7 @@ async def button_handler(update,context):
     elif query.data == "help":
         await  query.message.reply_text( " могу чем-то помочь " )
 
-    elif query.data == "1h":
+    elif query.data == "h1":
         await  query.message.reply_text( " https://github.com/neomigas " )
 
 #-----------------------------------------------------------------------------------------------------------------------
