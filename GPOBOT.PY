@@ -1,8 +1,6 @@
 #```
-from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
-
+from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto
 from telegram.ext import Application, CommandHandler, ApplicationBuilder, CallbackQueryHandler, ContextTypes
-
 application = Application.builder().token('7262756924:AAH_6DAGNlDKHIbtVDxoPUVtUMeW44STSac').build()
 #--------------------------------------------------------------------------------------------------------------------
 
@@ -11,8 +9,8 @@ async def start_command(update,context):
     inline_keyboard = [
     [ InlineKeyboardButton("поставить таймер ", callback_data="books")],
     [ InlineKeyboardButton("помощь автору ", callback_data="services")],
-    [ InlineKeyboardButton("под услуги", callback_data="h1")]
-    [ InlineKeyboardButton("mem", url="https://www.youtube.com/watch?v=_S7WEVLbQ-Y&t=2s&ab_channel=FicLord")]
+    [ InlineKeyboardButton("под услуги", callback_data="h1")],
+    [ InlineKeyboardButton("h1", url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")]
     ]
     markup = InlineKeyboardMarkup(inline_keyboard)
 
@@ -46,15 +44,34 @@ async def button_handler(update,context):
     elif query.data == "h1":
         await  query.message.reply_text( " https://github.com/neomigas " )
 
+
 #-----------------------------------------------------------------------------------------------------------------------
 
 
+async def send_photos(update,context):
+        # шляхи до локальних файлів
+   photo_paths = ["image/time1.jpg","image/time2.jpg","image/time3.png","image/time4.jpg","image/time5.jpg"]
+
+   # Перевірка на існування файлів
+   try:
+       media_group =[InputMediaPhoto(open(photo,"rb")) for photo in photo_paths]
+       await update.message.reply_media_group(media_group)
+   except FileNotFoundError as e:
+       await update.message.reply_text(f"ОШИБКА: ФАЙЛ {e.filename} не знайдено.")
+
+   except Exception as e:
+        await update.message.reply.text(f"bbfghfg: {str(e)}")
+
+
+
+#-----------------------------------------------------------------------------------------------------------------------
 #команды чтобы бот работал
 
 
 def main():
           application.add_handler(CommandHandler("start", start_command))
           application.add_handler(CallbackQueryHandler(button_handler))
+          application.add_handler(CommandHandler("send_photos", send_photos))
           application.run_polling()
 
 #-----------------------------------------------------------------------------------------------------------------------
