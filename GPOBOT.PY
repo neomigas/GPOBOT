@@ -2,7 +2,7 @@
 from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto
 from telegram.ext import Application, CommandHandler, ApplicationBuilder, CallbackQueryHandler, ContextTypes
 application = Application.builder().token('7262756924:AAH_6DAGNlDKHIbtVDxoPUVtUMeW44STSac').build()
-#--------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 
 #команда/start с привествием сообщением и кнопками
 async def start_command(update,context):
@@ -10,7 +10,7 @@ async def start_command(update,context):
     [ InlineKeyboardButton("поставить таймер ", callback_data="books")],
     [ InlineKeyboardButton("помощь автору ", callback_data="services")],
     [ InlineKeyboardButton("под услуги", callback_data="h1")],
-    [ InlineKeyboardButton("h1", url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")]
+    [ InlineKeyboardButton("mem", url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")]
     ]
     markup = InlineKeyboardMarkup(inline_keyboard)
 
@@ -42,7 +42,14 @@ async def button_handler(update,context):
         await  query.message.reply_text( " могу чем-то помочь " )
 
     elif query.data == "h1":
-        await  query.message.reply_text( " https://github.com/neomigas " )
+        room_image_url ="image/time1.jpg"
+        caption = "time=money"
+        try:
+            await query.message.reply_photo(photo=room_image_url,caption=caption)
+        except FileNotFoundError as e:
+            await query.message.reply_text(f"ОШИБКА: ФАЙЛ {e.filename} не знайдено.")
+        except Exception as e:
+             await query.message.reply.text(f"bbfghfg: {str(e)}")
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -50,12 +57,13 @@ async def button_handler(update,context):
 
 async def send_photos(update,context):
         # шляхи до локальних файлів
-   photo_paths = ["image/time1.jpg","image/time2.jpg","image/time3.png","image/time4.jpg","image/time5.jpg"]
+   photo_paths = ["image/time1.jpg"]
 
    # Перевірка на існування файлів
    try:
        media_group =[InputMediaPhoto(open(photo,"rb")) for photo in photo_paths]
        await update.message.reply_media_group(media_group)
+
    except FileNotFoundError as e:
        await update.message.reply_text(f"ОШИБКА: ФАЙЛ {e.filename} не знайдено.")
 
